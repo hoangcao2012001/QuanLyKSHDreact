@@ -102,11 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(requests -> requests.antMatchers("/rest/login**","/rest/phong/**","/rest/loaiphong/**","/rest/datphong/**").permitAll());
         http.antMatcher("/rest/**").httpBasic(basic -> basic.authenticationEntryPoint(restauthenticationEnTryPoint())).sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeRequests(requests -> requests
 //	  .antMatchers("/user/repass", "/user/change","/admin/**").authenticated()// kiểm tra đăng nhập
-                .antMatchers(HttpMethod.GET, "/rest/**").access("hasAuthority('ADMIN') or hasAuthority('STAF') or hasAuthority('CUST')")
-                .antMatchers(HttpMethod.POST, "/rest/**").hasAnyAuthority("STAF", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/rest/**").hasAnyAuthority("ADMIN", "STAF")
-                .antMatchers(HttpMethod.DELETE, "/rest/**").hasAnyAuthority("ADMIN"))
-                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class)
+                
                 .exceptionHandling(handling -> handling.accessDeniedHandler(customAccessDeniedHandler()));
         http.formLogin(login -> login.loginPage("/user/sign-in").loginProcessingUrl(
                 "/user/sign-in").defaultSuccessUrl("/sign-in/success",
